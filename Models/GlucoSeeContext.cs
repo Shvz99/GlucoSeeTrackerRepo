@@ -6,13 +6,13 @@ namespace GlucoSeeTracker.Models
     public class GlucoSeeContext : DbContext
     {
         public GlucoSeeContext(DbContextOptions<GlucoSeeContext> options) 
-        : base (options) { }  //
+        : base (options) { }  
 
-        public DbSet<Landing> Landings { get; set; } //property
+        public DbSet<Landing> Landings { get; set; } //property/Tables in DB
         public DbSet<Dashboard> Dashboards { get; set; }
         public DbSet<GlucoRecord> GlucoRecords { get; set;}
 
-        public enum MealTime {Before, After}; 
+        /*public enum MealTime {Before, After};*/ //validate in controllers
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) //Data Seeding
         {
@@ -21,43 +21,49 @@ namespace GlucoSeeTracker.Models
                 {
                     UserID = 1,
                     Username = "First",
-                    Password = "1nh0",
+                    Password = "Password1",
                 },
                 new Landing 
                 { 
                     UserID = 2,
                     Username = "Second",
-                    Password = "2nh0"
+                    Password = "Password2"
                 },
                 new Landing
                 {
                     UserID = 3, 
                     Username = "Third", 
-                    Password = "3nh0"
+                    Password = "Password3"
                 }
                 );
 
             modelBuilder.Entity<Dashboard>().HasData(
                 new Dashboard
                 {
+                    DashID = 1,
                     FirstName = "Will",
                     LastName = "Smith",
                     Age = 40,
                     LastReading = 7,
+                    UserID = 1,
                 },
                 new Dashboard
                 {
+                    DashID = 2,
                     FirstName = "Sam",
                     LastName = "Smith",
                     Age = 30,
                     LastReading = 8.5m,
+                    UserID = 2,
                 },
                 new Dashboard
                 {
+                    DashID = 3,
                     FirstName = "Taylor",
                     LastName = "Swift",
                     Age = 30,
                     LastReading = 5.6m,
+                    UserID = 3,
                 }
                 ) ;
 
@@ -65,10 +71,26 @@ namespace GlucoSeeTracker.Models
                 new GlucoRecord
                 {
                     ReadingID = 1,
-                    UserID = 1,
                     GlucoLevel = 7.5m,
-                    DateTime = new (12/03/2022 /*08:00:00*/),
-                    Meal = GlucoRecord.MealTime.Before
+                    DateTime = new (2022, 12, 3, 8, 0, 0), //12.03.2022 08:00
+                    PrePostMeal = "Before",
+                    DashID = 1,
+                }, 
+                new GlucoRecord
+                {
+                    ReadingID = 2, 
+                    GlucoLevel = 8.5m, 
+                    DateTime = new (2023, 15, 7, 10, 0, 0), //15.07.2023 10:00
+                    PrePostMeal = "After", 
+                    DashID = 2,
+                }, 
+                new GlucoRecord
+                {
+                    ReadingID = 3,
+                    GlucoLevel = 7,
+                    DateTime = new(2023, 17, 9, 13, 0, 0), //17.09.2023 13:00
+                    PrePostMeal = "After",
+                    DashID = 3,
                 }
                 );
         }
