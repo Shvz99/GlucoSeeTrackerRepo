@@ -5,6 +5,7 @@ namespace GlucoSeeTracker.Models
 {
     public class Dashboard
     {
+        [Key]
         public int DashID { get; set; }
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
@@ -12,7 +13,7 @@ namespace GlucoSeeTracker.Models
         public decimal LastReading { get; set; }
 
         //userID - FK 
-        /*[ForeignKey("Landing")]*/
+        [ForeignKey("Landing")]
         [Required(ErrorMessage = "UserID is required")]
         public int UserID { get; set; }
         //Navigation property for UserID

@@ -8,9 +8,9 @@ namespace GlucoSeeTracker.Models
         public GlucoSeeContext(DbContextOptions<GlucoSeeContext> options) 
         : base (options) { }  
 
-        public DbSet<Landing> Landings { get; set; } //property/Tables in DB
-        public DbSet<Dashboard> Dashboards { get; set; }
-        public DbSet<GlucoRecord> GlucoRecords { get; set;}
+        public DbSet<Landing> Landings { get; set; } = null!; //property/Tables in DB
+        public DbSet<Dashboard> Dashboards { get; set; } = null!;
+        public DbSet<GlucoRecord> GlucoRecords { get; set; } = null!;
 
         /*public enum MealTime {Before, After};*/ //validate in controllers
 
@@ -72,7 +72,7 @@ namespace GlucoSeeTracker.Models
                 {
                     ReadingID = 1,
                     GlucoLevel = 7.5m,
-                    DateTime = new (2022, 12, 3, 8, 0, 0), //12.03.2022 08:00
+                    DateTime = new (2022, 3, 12, 8, 0, 0), //12.03.2022 08:00
                     PrePostMeal = "Before",
                     DashID = 1,
                 }, 
@@ -80,7 +80,7 @@ namespace GlucoSeeTracker.Models
                 {
                     ReadingID = 2, 
                     GlucoLevel = 8.5m, 
-                    DateTime = new (2023, 15, 7, 10, 0, 0), //15.07.2023 10:00
+                    DateTime = new (2023, 7, 15, 10, 0, 0), //15.07.2023 10:00
                     PrePostMeal = "After", 
                     DashID = 2,
                 }, 
@@ -88,7 +88,7 @@ namespace GlucoSeeTracker.Models
                 {
                     ReadingID = 3,
                     GlucoLevel = 7,
-                    DateTime = new(2023, 17, 9, 13, 0, 0), //17.09.2023 13:00
+                    DateTime = new(2023, 9, 17, 13, 0, 0), //17.09.2023 13:00
                     PrePostMeal = "After",
                     DashID = 3,
                 }

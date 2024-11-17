@@ -6,6 +6,7 @@ namespace GlucoSeeTracker.Models
 {
     public class GlucoRecord
     {
+        [Key]
         public int ReadingID { get; set; } //PK
 
         [Required(ErrorMessage = "Please enter blood glucose level")]
@@ -18,7 +19,7 @@ namespace GlucoSeeTracker.Models
         public string PrePostMeal { get; set; } = string.Empty;
 
         //FK
-        /*[ForeignKey("Dashboard")] - this is not needed in this case*/
+        [ForeignKey("Dashboard")] /*- this is not needed in this case*/
         [Required(ErrorMessage = "DashID is required")]
         public int DashID { get; set; }
         //Navigation property for UserID

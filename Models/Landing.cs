@@ -4,6 +4,7 @@ namespace GlucoSeeTracker.Models
 {
     public class Landing
     {
+        [Key]
         public int UserID { get; set; } //Primary Key
 
         [Required(ErrorMessage = "Please enter a Username")]

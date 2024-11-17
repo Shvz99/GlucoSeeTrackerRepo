@@ -18,5 +18,11 @@
             services.AddDbContext<GlucoSeeContext>(options => 
             options.UseSqlServer(Configuration.GetConnectionString("GlucoSeeContext")));
         }
+
+        //Googled
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+        }
+
     }
 }
