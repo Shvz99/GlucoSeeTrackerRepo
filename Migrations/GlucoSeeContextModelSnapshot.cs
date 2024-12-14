@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GlucoSeeTracker.Migrations
 {
-    [DbContext(typeof(GlucoSeeContext))]
+    [DbContext(typeof(Landing))]
     partial class GlucoSeeContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

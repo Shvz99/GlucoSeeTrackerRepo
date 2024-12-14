@@ -1,9 +1,14 @@
 using GlucoSeeTracker;
+using GlucoSeeTracker.Models;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<GlucoSeeContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("GlucoSeeContext"))); //Added (Register GlucoSeeContext with dependency injection)
 
 var app = builder.Build();
 

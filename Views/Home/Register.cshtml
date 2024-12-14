@@ -6,17 +6,28 @@
 <p>Use this page to detail your site's privacy policy.</p> *@
 @model Landing
 
-<h2>@ViewBag.Action</h2>
+@* <h2>@ViewBag.Action</h2> *@
+<!DOCTYPE html>
+<h2>New Registration</h2>
 
-<form asp-action="Register" method="post">
-    <div>
-        <label asp-for="Username"></label>
-        <input asp-for="Username" />
-    </div> 
+<form asp-action="Register" method="post" class="form-signin text-center d-flex justify-content-center align-items-center vh-100">
+    <style>
+        .form-control {
+            margin-bottom: 15px; /* Adds space between input fields */
+        }
 
+        button {
+            margin-top: 20px; /* Adds space above the submit button */
+        }
+    </style>
     <div>
-        <label asp-for="Password"></label>
-        <input asp-for="Password" type="password" />
+        <h3 class="h3 mb-3 font-weight-normal">Please create a new sign-in</h3>
+        <label asp-for="Username" class="sr-only">Username</label>
+        <input asp-for="Username" class="form-control" placeholder="Username" required autofocus />
+
+        <label asp-for="Password" class="sr-only">Password</label>
+        <input asp-for="Password" class="form-control" placeholder="Password" type="password" required" />
     </div>
-    <button type="submit">Register</button>
+    <button type="submit" class="btn btn-primary w-100 mt-3">Register</button> 
+    <button class="btn btn-secondary">Back</button>
 </form>

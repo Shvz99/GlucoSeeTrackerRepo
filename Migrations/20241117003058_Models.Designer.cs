@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace GlucoSeeTracker.Migrations
 {
-    [DbContext(typeof(GlucoSeeContext))]
+    [DbContext(typeof(Landing))]
     [Migration("20241117003058_Models")]
     partial class Models
     {

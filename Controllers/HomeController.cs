@@ -8,48 +8,40 @@ namespace GlucoSeeTracker.Controllers
 {
     public class HomeController : Controller
     {
-       /* private GlucoSeeContext context { get; set; } = null!;
-        public HomeController(GlucoSeeContext ctx)
-        {
-            context = ctx;
-        }*/
+        private readonly GlucoSeeContext _context;
 
-        public IActionResult Index()  //return landing/login page
+        // Constructor to inject the database context
+        public HomeController(GlucoSeeContext context)
         {
-            /*var landing = context.Landings;*/
-            return View("Index");
+            _context = context;
         }
 
-/*
-        [HttpGet] //Display the registration form
-        public IActionResult Register()
+        //show the log-in page
+        [HttpGet]
+        public IActionResult Index()
         {
-            // Prepare the form for registration
-            ViewBag.Action = "Register";
-            return View(new Landing());
+            return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(Landing landing)
+        public IActionResult Index(Landing model)
         {
-            if (ModelState.IsValid)
+            if (string.IsNullOrEmpty(model.Username) || string.IsNullOrEmpty(model.Password))
             {
-                // Check if email already exists
-                var existingUser = await context.Landings.FirstOrDefaultAsync(u => u.Username == landing.Username);
-                if (existingUser != null)
-                {
-                    ModelState.AddModelError("Username", "This Username is taken.");
-                    return View(landing);
-                }
-
-                // Save new record
-                await context.Landings.AddAsync(landing);
-                await context.SaveChangesAsync();
-                return RedirectToAction("Index", "Home");
+                ViewBag.Error = "Please provide both username and password.";
+                return View();
             }
+            // Check if the user exists in the database
+            var user = _context.Landings.SingleOrDefault(u => u.Username == model.Username && u.Password == model.Password);
 
-            // Return form with errors
-            return View("Register", landing);
-        }*/
+            if (user == null)
+            {
+                ViewBag.Error = "Invalid username or password.";
+                return View();
+            }
+            // User exists: Proceed to dashboard or another page
+            TempData["Message"] = $"Welcome, {user.Username}!";
+            return RedirectToAction("Index", "Dashboard"); // Replace "Dashboard" with your target controller
+        }
     }
 }
