@@ -8,26 +8,71 @@
 
 @* <h2>@ViewBag.Action</h2> *@
 <!DOCTYPE html>
-<h2>New Registration</h2>
 
-<form asp-action="Register" method="post" class="form-signin text-center d-flex justify-content-center align-items-center vh-100">
+<html>
+<head>
     <style>
-        .form-control {
-            margin-bottom: 15px; /* Adds space between input fields */
+        .Label {
+            font-weight: bold;
+            color: #483d8b;
+            font-size: 1.25rem;
         }
 
-        button {
-            margin-top: 20px; /* Adds space above the submit button */
+        input[type=text], [type=password] {
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 10px 10px;
+        }
+
+        .register-form button[type=submit], .register-form button[type=button] {
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 10px 10px;
+            background-color: #b0e0e6;
+            border: none;
+            color: black;
+            font-weight: bold;
+        }
+
+        .register-form button[type=submit]:hover, .register-form button[type=button]:hover {
+                background-color: #e0ffff;
+                color: black;
+                font-weight: bold;
+        }
+
+        .alert {
+            color: #a94442;
+            background-color: #f2dede;
+            border-color: #ebccd1;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
         }
     </style>
-    <div>
-        <h3 class="h3 mb-3 font-weight-normal">Please create a new sign-in</h3>
-        <label asp-for="Username" class="sr-only">Username</label>
-        <input asp-for="Username" class="form-control" placeholder="Username" required autofocus />
+</head>
 
-        <label asp-for="Password" class="sr-only">Password</label>
-        <input asp-for="Password" class="form-control" placeholder="Password" type="password" required" />
-    </div>
-    <button type="submit" class="btn btn-primary w-100 mt-3">Register</button> 
-    <button class="btn btn-secondary">Back</button>
+<body>
+<h1>New Registration</h1>
+    <!-- Display error message if present -->
+    @if (!string.IsNullOrEmpty(ViewBag.Error))
+    {
+        <div class="alert">@ViewBag.Error</div>
+    }
+
+<form asp-action="Register" asp-controller="Home" method="post" class="form-signin register-form text-center d-flex justify-content-center align-items-center vh-100">
+<div>
+    <h2 class="h3 mb-3 font-weight-normal">Please create a new sign-in</h2>
+    <label asp-for="Username" class="sr-only Label">Username</label>
+    <input asp-for="Username" type="text" class="form-control" placeholder="Username" required autofocus />
+    <br />
+    <label asp-for="Password" class="sr-only Label">Password</label>
+    <input asp-for="Password" class="form-control" placeholder="Password" type="password" required />
+    <br />
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
+    <button class="btn btn-lg btn-secondary btn-block" type="button" onclick="location.href='@Url.Action("Index", "Home")'">Back</button>
+</div>
 </form>
+</body>
+</html>
