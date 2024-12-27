@@ -26,10 +26,6 @@
                 options.IdleTimeout = TimeSpan.FromMinutes(30); // Set session timeout
                 options.Cookie.HttpOnly = true; // Makes the cookie inaccessible to JavaScript
                 options.Cookie.IsEssential = true; // Ensure the cookie is included in requests
-
-                options.IdleTimeout = TimeSpan.FromMinutes(30); // Session timeout
-                options.Cookie.HttpOnly = true;
-                options.Cookie.IsEssential = true;
             });*/
         }
 
@@ -49,9 +45,9 @@
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseSession(); // Enable session middleware
             app.UseRouting();
 
-            app.UseSession(); // Enable session middleware
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

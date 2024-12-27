@@ -1,4 +1,6 @@
-﻿@model IEnumerable<GlucoSeeTracker.Models.Dashboard>
+﻿@* @model IEnumerable<GlucoSeeTracker.Models.Dashboard> *@
+@model GlucoSeeTracker.Models.DashboardViewModel
+
 <!DOCTYPE html>
 @* <html lang="en"> *@
 
@@ -14,47 +16,64 @@
             align-items: center; /* Center vertically */
         }
 
-            /* Header items */
-            .Header .header-item {
-                font-weight: bold;
-                color: #483d8b; /* Deep purple text color */
-                font-size: 1.25rem;
-            }
+        /* Header items */
+        .Header .header-item {
+            font-weight: bold;
+            color: #483d8b; /* Deep purple text color */
+            font-size: 1.25rem;
+        }
 
-            /* Logout button */
-            .Header .btn {
-                font-weight: bold;
-                font-size: 1.25rem;
-                color: white;
-                background-color: #483d8b; /* Deep purple background */
-                border: none;
-                padding: 8px 15px;
-                border-radius: 5px;
-                cursor: pointer;
-            }
+        /* Logout button */
+        .Header .btn {
+            font-weight: bold;
+            font-size: 1.25rem;
+            color: white;
+            background-color: #483d8b; /* Deep purple background */
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
 
-                .Header .btn:hover {
-                    background-color: #007bff; /* Blue hover color */
-                }
+        .Header .btn:hover {
+            background-color: #007bff; /* Blue hover color */
+        }
     </style>
 </head>
 
 <body>
     <nav class="Header">
-        @if (Model != null && Model.Any())
-        {
-            var firstRecord = Model.First();
-            <span class="header-item">First Name: @firstRecord.FirstName</span>
-            <span class="header-item">Last Name: @firstRecord.LastName</span>
-            <span class="header-item">Age: @firstRecord.Age</span>
-        }
-        else
-        {
-            <span class="header-item">No data available.</span>
-        }
+
+        <span class="header-item">First Name: @(string.IsNullOrEmpty(Model.FirstName) ? "N/A" : Model.FirstName)</span>
+        <span class="header-item">Last Name: @(string.IsNullOrEmpty(Model.LastName) ? "N/A" : Model.LastName)</span>
+        <span class="header-item">Age: @(Model.Age > 0 ? Model.Age.ToString() : "N/A")</span>
 
         <!-- Logout button -->
-        <button class="btn" type="button" onclick="location.href='@Url.Action("Logout", "Account")'">Logout</button>
+        <button class="btn" type="button" onclick="location.href='@Url.Action("Index", "Home")'">Logout</button>
     </nav>
 </body>
 </html>
+
+<table class="table table-bordered table-striped">
+    <tr>
+        <th></th>
+        <th>Last Reading</th>
+        <th>New Reading</th>
+        @* <th></th> *@
+    </tr>
+    <tr>
+        <th>Glucose Level</th>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <th>Date and Time</th>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <th>Meal</th>
+        <td></td>
+        <td></td>
+    </tr>
+</table>

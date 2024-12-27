@@ -4,6 +4,15 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddDistributedMemoryCache();  // Required for session to work - 25.12.24
+builder.Services.AddSession(options => //25.12.24
+{
+    options.Cookie.Name = ".GlucoSee.Session"; // 26.12.24
+    options.IdleTimeout = TimeSpan.FromMinutes(30);  // Set session timeout
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -22,6 +31,17 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+app.UseSession(); //25.12.24
+/*if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
+else
+{
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
+}*/
 
 app.UseRouting();
 
@@ -46,4 +66,7 @@ public partial class Program
             .ConfigureWebHostDefaults(
                 webBuilder => webBuilder.UseStartup<Startup>());
 }
+
+
+
 

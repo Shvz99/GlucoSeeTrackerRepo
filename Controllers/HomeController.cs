@@ -39,14 +39,9 @@ namespace GlucoSeeTracker.Controllers
                 ViewBag.Error = "Invalid username or password.";
                 return View();
             }
-            // User exists: Proceed to dashboard or another page
-            TempData["Message"] = $"Welcome, {user.Username}!";
 
-            // Store UserID for later use
-            /* TempData["UserID"] = user.UserID;*/
-
-            // Store UserID in the session
-            /*HttpContext.Session.SetInt32("UserID", user.UserID);*/
+            // Store username in session
+            HttpContext.Session.SetString("Username", user.Username); //26.12.24
             return RedirectToAction("Dashboard", "GlucoSee"); // Replace "Dashboard" with your target controller
         }
 
