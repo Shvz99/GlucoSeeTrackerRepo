@@ -23,20 +23,26 @@
             font-size: 1.25rem;
         }
 
-        /* Logout button */
-        .Header .btn {
+        /*buttons*/
+        .btn {
             font-weight: bold;
             font-size: 1.25rem;
             color: white;
             background-color: #483d8b; /* Deep purple background */
             border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
+            padding: 10px 10px;
+            border-radius: 10px;
             cursor: pointer;
+            border: 1px solid #ccc;
         }
 
-        .Header .btn:hover {
+        .btn:hover {
             background-color: #007bff; /* Blue hover color */
+        }
+
+        .Header .btn:first-child{
+            margin-right: 5px;
+            margin: 0;
         }
     </style>
 </head>
@@ -48,32 +54,48 @@
         <span class="header-item">Last Name: @(string.IsNullOrEmpty(Model.LastName) ? "N/A" : Model.LastName)</span>
         <span class="header-item">Age: @(Model.Age > 0 ? Model.Age.ToString() : "N/A")</span>
 
+        <button class="btn" type="button" onclick="location.href='@Url.Action("Update", "GlucoSee")'">Update</button>
         <!-- Logout button -->
         <button class="btn" type="button" onclick="location.href='@Url.Action("Index", "Home")'">Logout</button>
     </nav>
+
+    <h2>Glucose Readings</h2>
+
+    <button class="btn" type="button" onclick="location.href='@Url.Action("Add", "GlucoSee")'">Add New Reading</button>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Glucose Level</th>
+                <th>Date/Time</th>
+                <th>Pre/Post Meal</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.AllReadings != null && Model.AllReadings.Any())
+            {
+                @foreach (var reading in Model.AllReadings)
+                {
+                    <tr>
+                        <td>@reading.GlucoLevel</td>
+                        <td>@reading.DateTime</td>
+                        <td>@(reading.PrePostMeal == "Pre" ? "Pre-Meal" : "Post-Meal")</td>
+                        <td>
+                            <a asp-controller="GlucoSee" asp-action="Edit" asp-route-id="@reading.ReadingID">Edit</a>
+                            <a asp-controller="GlucoSee" asp-action="Delete" asp-route-id="@reading.ReadingID">Delete</a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="3">No recent readings found.</td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+
 </body>
 </html>
-
-<table class="table table-bordered table-striped">
-    <tr>
-        <th></th>
-        <th>Last Reading</th>
-        <th>New Reading</th>
-        @* <th></th> *@
-    </tr>
-    <tr>
-        <th>Glucose Level</th>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <th>Date and Time</th>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <th>Meal</th>
-        <td></td>
-        <td></td>
-    </tr>
-</table>

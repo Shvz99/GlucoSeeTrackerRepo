@@ -17,6 +17,12 @@
         {
             services.AddDbContext<GlucoSeeContext>(options => 
             options.UseSqlServer(Configuration.GetConnectionString("GlucoSeeContext")));
+            services.AddLogging(builder =>
+            {
+                builder.AddConsole(); // Log to console
+                                      // You can add other logging providers like file, event log, etc.
+                                      // builder.AddFile("Logs/app.log"); 
+            });
             //Googled
             services.AddControllersWithViews();
 
@@ -52,9 +58,13 @@
 
             app.UseEndpoints(endpoints =>
             {
+                /*endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");*/  // Change to:
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=GlucoSee}/{action=Index}/{id?}" // Include GlucoSee controller
+                );
             });
         }
 
