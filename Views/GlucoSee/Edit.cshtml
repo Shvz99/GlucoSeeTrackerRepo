@@ -1,0 +1,45 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model GlucoSeeTracker.Models.GlucoRecord
+
+<h4>Edit Reading</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" method="post" asp-route-id="@Model.ReadingID">
+            <input type="hidden" asp-for="ReadingID" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="GlucoLevel" class="control-label"></label>
+                <input asp-for="GlucoLevel" class="form-control" />
+                <span asp-validation-for="GlucoLevel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateTime" class="control-label"></label>
+                <input asp-for="DateTime" class="form-control" />
+                <span asp-validation-for="DateTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PrePostMeal" class="control-label"></label>
+                <select asp-for="PrePostMeal" class="form-control">
+                    <option value="Pre">Pre-Meal</option>
+                    <option value="Post">Post-Meal</option>
+                </select>
+                <span asp-validation-for="PrePostMeal" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a asp-controller="GlucoSee" asp-action="Dashboard" class="btn btn-primary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,32 +1,81 @@
 ﻿using GlucoSeeTracker.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.Text;
 
 namespace GlucoSeeTracker.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly GlucoSeeContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        // Constructor to inject the database context
+        public HomeController(GlucoSeeContext context)
         {
-            _logger = logger;
+            _context = context;
         }
 
+        //show the log-in/Index page
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult Privacy()
+        [HttpPost]
+        public IActionResult Index(Landing model)
         {
-            return View();
+            if (string.IsNullOrEmpty(model.Username) || string.IsNullOrEmpty(model.Password))
+            {
+                ViewBag.Error = "Please provide both username and password.";
+                return View();
+            }
+            // Check if the user exists in the database
+            var user = _context.Landings.SingleOrDefault(u => u.Username == model.Username && u.Password == model.Password);
+
+            if (user == null)
+            {
+                ViewBag.Error = "Invalid username or password.";
+                return View();
+            }
+
+            // Store username in session
+            HttpContext.Session.SetString("Username", user.Username); //26.12.24
+            return RedirectToAction("Dashboard", "GlucoSee"); // Replace "Dashboard" with your target controller
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+
+        //REGISTRATION!!!
+        [HttpGet]
+        public IActionResult Register()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View("Register", new Landing());
+            /*return View();*/
+        }
+
+        [HttpPost]
+        public IActionResult Register(Landing register)
+        {
+            if (string.IsNullOrEmpty(register.Username) || string.IsNullOrEmpty(register.Password))
+            {
+                ViewBag.Error = "Please provide both username and password.";
+                return View("Register", register);
+            }
+
+            // Check if the user already exists in the database
+            var userExists = _context.Landings.Any(u => u.Username == register.Username);
+            if (userExists)
+            {
+                ViewBag.Error = "User already exists. Please use a different username.";
+                return View("Register", register); // Pass the model back to the view
+            }
+            // Add the new user to the database
+            _context.Landings.Add(register);
+            _context.SaveChanges();
+
+            // Redirect to the Login page (Index action in HomeController)
+            return RedirectToAction("Index", "Home");
         }
     }
 }
